@@ -23,7 +23,7 @@ class Functions:
         root.focus_force()
         
     def action(self, num: str) -> None:
-        if num.isnumeric() or num in "+-x/,":
+        if num.isnumeric() or num in "+-x/,^":
             self.__put_num_or_operator(num)
         elif num == "<-":
             self.__del_num()
@@ -64,6 +64,7 @@ class Functions:
         operation: str = str(self.et_display.get())
         operation = operation.replace(",", ".")
         operation = operation.replace("x", "*")
+        operation = operation.replace("^", "**")
         return operation
 
     def __invalid_operation(self) -> None:
@@ -84,7 +85,7 @@ class Functions:
             self.__invalid_operation()
         
     def key_press(self, event) -> None:
-        if event.char in "0123456789/*-+,":
+        if event.char in "0123456789/*-+,^":
             self.__put_num_or_operator(num=event.char)
         elif event.char == "\x08":
             self.__del_num()

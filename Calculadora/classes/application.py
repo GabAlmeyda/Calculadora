@@ -26,11 +26,11 @@ class Application(Functions):
                           relwidth=0.935, relheight=0.2)
 
     def __buttons(self) -> None:
-        buttons_num = ["7", "8", "9", "/",
-                       "4", "5", "6", "x",
-                       "1", "2", "3", "-",
-                       ",", "0", "=", "+",
-                       "C", "<-"]
+        buttons_num = ["7", "8", "9", "^",
+                       "4", "5", "6", "/",
+                       "1", "2", "3", "x",
+                       ",", "0", "=", "-",
+                       "C", "<-", "+"]
 
         relx = 0.035
         rely = 0.25
@@ -40,19 +40,23 @@ class Application(Functions):
         for pos, label in enumerate(buttons_num):
             button = Button(self.root, text=label, 
                             command=lambda num=label: self.action(num))
-            if (pos + 1) >= 17:
-                relw = 0.458
-                if (pos + 1) == 18:
-                    relw = 0.459
-            button.configure(bg="#606060" if (pos + 1) %
-                             4 != 0 else "#fc6900", font=("verdana", 15, ("bold")),
-                             activebackground="#404040" if (pos + 1) % 4 != 0 else "#963f00")
-            if (pos + 1) % 4 != 0:
-                button.bind("<Enter>", self.enter_mouse)
-                button.bind("<Leave>", self.leave_mouse)
-            else:
+            if label == "C" or label == "<-": 
+                relw = 0.33975
+            if label == "+":
+                relw = 0.2205
+            #If the button is in the right side
+            if label in ("+-x/^"):
+                bg = "#fc6900" 
+                activebackgroung = "#963f00" 
                 button.bind("<Enter>", self.enter_mouse_orange)
                 button.bind("<Leave>", self.leave_mouse_orange)
+            else:
+                bg = "#606060"
+                activebackgroung = "#404040"
+                button.bind("<Enter>", self.enter_mouse)
+                button.bind("<Leave>", self.leave_mouse)
+            button.configure(bg=bg, font=("verdana", 15, ("bold")),
+                             activebackground=activebackgroung)
             button.place(relx=relx, rely=rely, relwidth=relw, relheight=relh)
             relx += 0.018 + relw
             if (pos + 1) % 4 == 0:
@@ -76,3 +80,4 @@ class Application(Functions):
 
 if __name__ == "__main__":
     Application()
+    
